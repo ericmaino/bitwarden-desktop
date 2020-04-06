@@ -9,8 +9,6 @@ branches:
 stack: node 10
 
 init:
-- git config --list
-- git config submodule.jslib.url https://github.com/ericmaino/bitwarden-jslib.git
 - ps: |
     if($isWindows -and $env:DEBUG_RDP -eq "true") {
       iex ((new-object net.webclient).DownloadString(`
@@ -62,6 +60,8 @@ before_build:
 build_script:
 - npm install
 - npm run lint
+- git config --list
+- git config submodule.jslib.url https://github.com/ericmaino/bitwarden-jslib.git
 - ps: |
     if($isLinux) {
       npm run dist:lin
