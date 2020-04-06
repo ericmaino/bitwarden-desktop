@@ -58,10 +58,10 @@ before_build:
     }
 
 build_script:
+- git config submodule.jslib.url https://github.com/ericmaino/bitwarden-jslib.git
+- git config --list
 - npm install
 - npm run lint
-- git config --list
-- git config submodule.jslib.url https://github.com/ericmaino/bitwarden-jslib.git
 - ps: |
     if($isLinux) {
       npm run dist:lin
