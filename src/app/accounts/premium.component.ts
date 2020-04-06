@@ -96,7 +96,7 @@ export class PremiumComponent extends BasePremiumComponent {
                             console.log(`Failed to purchase ${payment.productIdentifier}. ` +
                                 `${transaction.errorCode} = ${transaction.errorMessage}`);
                             if (transaction.errorCode !== 2) {
-                                this.platformUtilsService.showToast('error', null, transaction.errorMessage);
+                                this.raiseError(transaction.errorMessage);
                             }
                             // Finish the transaction.
                             remote.inAppPurchase.finishTransactionByDate(transaction.transactionDate);

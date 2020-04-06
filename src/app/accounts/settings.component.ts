@@ -17,6 +17,7 @@ import { StateService } from 'jslib/abstractions/state.service';
 import { StorageService } from 'jslib/abstractions/storage.service';
 import { UserService } from 'jslib/abstractions/user.service';
 import { VaultTimeoutService } from 'jslib/abstractions/vaultTimeout.service';
+import { PlatformComponent } from 'jslib/angular/components/platform.component';
 
 import { ConstantsService } from 'jslib/services/constants.service';
 
@@ -28,7 +29,7 @@ import { Utils } from 'jslib/misc/utils';
     selector: 'app-settings',
     templateUrl: 'settings.component.html',
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent extends PlatformComponent implements OnInit {
     vaultTimeout: number = null;
     vaultTimeoutAction: string;
     pin: boolean = null;
@@ -49,10 +50,11 @@ export class SettingsComponent implements OnInit {
     enableTrayDescText: string;
 
     constructor(private analytics: Angulartics2, private toasterService: ToasterService,
-        private i18nService: I18nService, private platformUtilsService: PlatformUtilsService,
+        protected i18nService: I18nService, protected platformUtilsService: PlatformUtilsService,
         private storageService: StorageService, private vaultTimeoutService: VaultTimeoutService,
         private stateService: StateService, private messagingService: MessagingService,
         private userService: UserService, private cryptoService: CryptoService) {
+        super(platformUtilsService, i18nService);
         const trayKey = this.platformUtilsService.getDevice() === DeviceType.MacOsDesktop ?
             'enableMenuBar' : 'enableTray';
         this.enableTrayText = this.i18nService.t(trayKey);

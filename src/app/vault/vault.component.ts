@@ -45,6 +45,7 @@ import { I18nService } from 'jslib/abstractions/i18n.service';
 import { MessagingService } from 'jslib/abstractions/messaging.service';
 import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
 import { SyncService } from 'jslib/abstractions/sync.service';
+import { PlatformComponent } from 'jslib/angular/components/platform.component';
 
 const SyncInterval = 6 * 60 * 60 * 1000; // 6 hours
 const BroadcasterSubscriptionId = 'VaultComponent';
@@ -53,7 +54,7 @@ const BroadcasterSubscriptionId = 'VaultComponent';
     selector: 'app-vault',
     templateUrl: 'vault.component.html',
 })
-export class VaultComponent implements OnInit, OnDestroy {
+export class VaultComponent extends PlatformComponent implements OnInit, OnDestroy {
     @ViewChild(ViewComponent) viewComponent: ViewComponent;
     @ViewChild(AddEditComponent) addEditComponent: AddEditComponent;
     @ViewChild(CiphersComponent) ciphersComponent: CiphersComponent;
@@ -80,11 +81,13 @@ export class VaultComponent implements OnInit, OnDestroy {
     private modal: ModalComponent = null;
 
     constructor(private route: ActivatedRoute, private router: Router,
-        private componentFactoryResolver: ComponentFactoryResolver, private i18nService: I18nService,
+        private componentFactoryResolver: ComponentFactoryResolver, protected i18nService: I18nService,
         private broadcasterService: BroadcasterService, private changeDetectorRef: ChangeDetectorRef,
         private ngZone: NgZone, private syncService: SyncService, private analytics: Angulartics2,
         private toasterService: ToasterService, private messagingService: MessagingService,
-        private platformUtilsService: PlatformUtilsService, private eventService: EventService) { }
+        protected platformUtilsService: PlatformUtilsService, private eventService: EventService) {
+            super(platformUtilsService, i18nService);
+         }
 
     async ngOnInit() {
         this.broadcasterService.subscribe(BroadcasterSubscriptionId, (message: any) => {
